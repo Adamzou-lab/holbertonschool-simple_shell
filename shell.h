@@ -9,4 +9,13 @@
 #include <string.h> /** strcmp, strtok */
 #include <stddef.h>
 
+/** parser.c */
+char **parse(char *line);
+
+/** builtins.c */
+int is_builtin(char *cmd);
+void exec_builtin(char **args, char **env);
+void builtin_exit(char **args, char **env);
+void builtin_env(char **args, char **env);
+
 #endif
