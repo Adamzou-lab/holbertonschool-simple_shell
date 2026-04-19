@@ -9,6 +9,11 @@
 #include <string.h> /** strcmp, strtok */
 #include <stddef.h>
 
+/* simple_shell.c */
+int main(int ac, char **av, char **env);
+void run_shell(char **env);
+void execute(char *line, char **env);
+
 /** parser.c */
 char **parse(char *line);
 
@@ -17,5 +22,14 @@ int is_builtin(char *cmd);
 void exec_builtin(char **args, char **env);
 void builtin_exit(char **args, char **env);
 void builtin_env(char **args, char **env);
+
+/* executor.c */
+void fork_exec(char *path, char **args, char **env);
+
+/* path.c */
+char *_getenv(const char *name, char **env);
+char *copy_str(char *str);
+char *build_path(char *dir, char *cmd);
+char *find_path(char *cmd, char **env);
 
 #endif
