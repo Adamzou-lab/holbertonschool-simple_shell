@@ -10,7 +10,7 @@
 void fork_exec(char *path, char **args, char **env)
 {
 	pid_t pid;
-	
+
 	pid = fork(); /* create child process */
 	if (pid == -1)/* check if fork failed */
 	{
