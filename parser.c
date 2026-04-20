@@ -45,7 +45,7 @@ char **parse(char *line)
 		tab[i] = strdup(token); /** copy the word in case of tab */
 		i++;
 		token = strtok(NULL, " \n\t"); /** next word */
-	}    
+	}
 	free(str_copy);
 	return (tab);
 }
@@ -58,12 +58,12 @@ char **parse(char *line)
  */
 void free_args(char **args)
 {
-    int i = 0;
+	int i = 0;
 
-    while (args[i])
-    {
-        free(args[i]);
-        i++;
-    }
-    free(args);
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }
