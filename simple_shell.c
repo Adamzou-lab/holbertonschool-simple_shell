@@ -8,13 +8,12 @@
  * Description: Immediately calls the shell's main execution loop,
  * passing argv[0] as the program name and the environment variables.
  *
- * Return: Always 0 (Success).
+ * Return: exit status of the last command executed.
  */
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
-	run_shell(av[0], env);
-	return (0);
+	return (run_shell(av[0], env));
 }
 /**
  * run_shell - runs the main loop of the shell
@@ -24,12 +23,15 @@ int main(int ac, char **av, char **env)
  * Description: Reads input from the user in a loop, displays a prompt if
  * in interactive mode, and passes the input to the execution function.
  * Handles End-Of-File (EOF) and frees memory appropriately.
+ *
+ * Return: exit status of the last command executed.
  */
-void run_shell(char *prog_name, char **env)
+int run_shell(char *prog_name, char **env)
 {
 	char *line = NULL;
 	size_t n = 0;
 	int count = 1;
+	int last_status = 0;
 
 	while (1)
 	{
@@ -39,12 +41,13 @@ void run_shell(char *prog_name, char **env)
 		if (getline(&line, &n, stdin) == -1) /* EOF or error, exit loop */
 			break;
 
-		execute(line, prog_name, env, count);
+		last_status = execute(line, prog_name, env, count);
 		count++;
 		free(line);
 		line = NULL;
 	}
 	free(line);
+	return (last_status);
 }
 /**
  * execute - handles the execution logic of a command
@@ -56,8 +59,10 @@ void run_shell(char *prog_name, char **env)
  * Description: Parses the input line into arguments, checks for built-in
  * commands, searches the system PATH for the executable, and forks a
  * new process to run the command if found.
+ *
+ * Return: exit status of the command (0 on success, 127 if not found).
  */
-void execute(char *line, char *prog_name, char **env, int count)
+int execute(char *line, char *prog_name, char **env, int count)
 {
 	char **args = NULL;
 	char *path = NULL;
@@ -66,22 +71,24 @@ void execute(char *line, char *prog_name, char **env, int count)
 	if (args == NULL || args[0] == NULL) /* empty line */
 	{
 		free_args(args);
-		return;
+		return (0);
 	}
-	if (is_builtin(args[0])) /* check if command is a builtin (exit or env) */
+	if (is_builtin(args[0])) /* check if command is a builtin */
 	{
 		exec_builtin(args, env, line);
 		free_args(args);
-		return;
+		return (0);
 	}
 	path = find_path(args[0], env); /* search command in PATH */
 	if (path == NULL) /* command not found */
 	{
-		fprintf(stderr, "%s: %d: %s: not found\n", prog_name, count, args[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n",
+			prog_name, count, args[0]);
 		free_args(args);
-		return;
+		return (127);
 	}
 	fork_exec(path, args, env);
 	free(path);
 	free_args(args);
+	return (0);
 }

@@ -10,8 +10,8 @@
 
 /* simple_shell.c */
 int main(int ac, char **av, char **env);
-void run_shell(char *prog_name, char **env);
-void execute(char *line, char *prog_name, char **env, int count);
+int run_shell(char *prog_name, char **env);
+int execute(char *line, char *prog_name, char **env, int count);
 
 /** parser.c */
 char **parse(char *line);
