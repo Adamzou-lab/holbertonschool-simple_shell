@@ -11,8 +11,8 @@
 
 /* simple_shell.c */
 int main(int ac, char **av, char **env);
-void run_shell(char **env);
-void execute(char *line, char **env, int count);
+int run_shell(char *prog_name, char **env);
+int execute(char *line, char *prog_name, char **env, int count, int last_status);
 
 /** parser.c */
 char **parse(char *line);
@@ -20,8 +20,8 @@ void free_args(char **args);
 
 /** builtins.c */
 int is_builtin(char *cmd);
-void exec_builtin(char **args, char **env);
-void builtin_exit(char **args, char **env);
+void exec_builtin(char **args, char **env, int last_status);
+void builtin_exit(char **args, char **env, int last_status);
 void builtin_env(char **args, char **env);
 
 /* executor.c */
