@@ -40,12 +40,11 @@ void builtin_env(char **args, char **env)
  * Description: Terminates the shell process immediately with a
  * success status (0).
  */
-void builtin_exit(char **args, char **env)
+void builtin_exit(char **args, char **env, int last_status)
 {
-	(void)args;
 	(void)env;
-	exit(0);
-
+	free_args(args);
+	exit(last_status);
 }
 
 /**
@@ -56,10 +55,10 @@ void builtin_exit(char **args, char **env)
  * Description: Compares the first argument to known built-in strings
  * and calls the corresponding function to handle the command.
  */
-void exec_builtin(char **args, char **env)
+void exec_builtin(char **args, char **env, int last_status)
 {
 	if (strcmp(args[0], "exit") == 0)
-		builtin_exit(args, env);
+		builtin_exit(args, env, last_status);
 
 	if (strcmp(args[0], "env") == 0)
 		builtin_env(args, env);
