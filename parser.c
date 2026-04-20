@@ -31,14 +31,15 @@ char **parse(char *line)
 	}
 	tab = malloc(sizeof(char *) * (word_count + 1));
 	/** alloc size of memory + NULL */
-
 	if (tab == NULL)
 		return (NULL);
-
 	tab[word_count] = NULL;
-
 	str_copy = strdup(line); /** copy for work on */
-
+	if (!str_copy)
+	{
+		free(tab);
+		return (NULL);
+	}
 	token = strtok(str_copy, " \n\t"); /** first word */
 	while (token != NULL)
 	{

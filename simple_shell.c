@@ -70,8 +70,7 @@ void execute(char *line, char *prog_name, char **env, int count)
 	}
 	if (is_builtin(args[0])) /* check if command is a builtin (exit or env) */
 	{
-		exec_builtin(args, env);
-		free_args(args);
+		exec_builtin(args, env, line);
 		return;
 	}
 	path = find_path(args[0], env); /* search command in PATH */
