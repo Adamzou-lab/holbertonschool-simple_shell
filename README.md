@@ -48,7 +48,7 @@ $ echo "/bin/echo Hello World" | ./hsh
 
 ```bash
 $ /bin/ls
-AUTHORS  README.md  hsh  main.c  shell.c  shell.h
+AUTHORS  README.md  builtins.c  executor.c  parser.c  path.c  shell.h  simple_shell.c  hsh
 
 $ /bin/echo Hello World
 Hello World
@@ -87,7 +87,7 @@ flowchart TB
     C --> E["Lire la commande\ngetline"]
     D --> E
     E --> F{"Ctrl+D ?"}
-    F -- oui --> G(["Quitter\nReturn -1"])
+    F -- oui --> G(["Quitter\nlast_status"])
     F -- non --> H["Découper en mots\nstrtok"]
     H --> I{"Builtin ?"}
     I -- oui --> J["Exécuter builtin"]
