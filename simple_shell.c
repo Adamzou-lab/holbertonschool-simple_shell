@@ -51,8 +51,8 @@ void run_shell(char **env)
  * execute - handles the execution logic of a command
  * @line: the raw input string from the user
  * @env: the environment variables array
- * @count: number of commands executed since the shell started 
- * 
+ * @count: number of commands executed since the shell started
+ *
  * Description: Parses the input line into arguments, checks for built-in
  * commands, searches the system PATH for the executable, and forks a
  * new process to run the command if found.
