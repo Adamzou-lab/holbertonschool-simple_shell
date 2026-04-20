@@ -63,13 +63,13 @@ void execute(char *line, char **env)
 	args = parse(line); /* split line into words */
 	if (args == NULL || args[0] == NULL) /* empty line */
 	{
-		free(args);
+		free_args(args);
 		return;
 	}
 	if (is_builtin(args[0])) /* check if command is a builtin (exit or cd) */
 	{
 		exec_builtin(args, env);
-		free(args);
+		free_args(args);
 		return;
 	}
 	path = find_path(args[0], env); /* search command in PATH */
@@ -81,5 +81,5 @@ void execute(char *line, char **env)
 	}
 	fork_exec(path, args, env);
 	free(path);
-	free(args);
+	free_args(args);
 }

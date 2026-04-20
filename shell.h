@@ -16,6 +16,7 @@ void execute(char *line, char **env);
 
 /** parser.c */
 char **parse(char *line);
+void free_args(char **args);
 
 /** builtins.c */
 int is_builtin(char *cmd);

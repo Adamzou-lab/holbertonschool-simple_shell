@@ -60,9 +60,9 @@ char *build_path(char *dir, char *cmd)
 	full_path = malloc(strlen(dir) + strlen(cmd) + 2); /* dir + / + cmd + \0 */
 	if (!full_path)
 		return (NULL);
-	strcpy(full_path, cmd); /* copy command */
+	strcpy(full_path, dir); /* add directory */
 	strcat(full_path, "/"); /* add separator */
-	strcat(full_path, dir); /* add directory */
+	strcat(full_path, cmd); /* copy command */
 	return (full_path);
 }
 
