@@ -12,7 +12,7 @@
 /* simple_shell.c */
 int main(int ac, char **av, char **env);
 void run_shell(char **env);
-void execute(char *line, char **env);
+void execute(char *line, char **env, int count);
 
 /** parser.c */
 char **parse(char *line);

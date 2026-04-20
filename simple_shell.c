@@ -28,8 +28,9 @@ int main(int ac, char **av, char **env)
  */
 void run_shell(char **env)
 {
-	char    *line = NULL;
-	size_t  n = 0;
+	char *line = NULL;
+	size_t n = 0;
+	int count = 1;
 
 	while (1)
 	{
@@ -39,8 +40,8 @@ void run_shell(char **env)
 		if (getline(&line, &n, stdin) == -1) /* EOF or error, exit loop */
 			break;
 
-		execute(line, env);
-
+		execute(line, env, count);
+		count++;
 		free(line);
 		line = NULL;
 	}
@@ -50,15 +51,16 @@ void run_shell(char **env)
  * execute - handles the execution logic of a command
  * @line: the raw input string from the user
  * @env: the environment variables array
- *
+ * @count: number of commands executed since the shell started 
+ * 
  * Description: Parses the input line into arguments, checks for built-in
  * commands, searches the system PATH for the executable, and forks a
  * new process to run the command if found.
  */
-void execute(char *line, char **env)
+void execute(char *line, char **env, int count)
 {
-	char    **args = NULL;
-	char    *path = NULL;
+	char **args = NULL;
+	char *path = NULL;
 
 	args = parse(line); /* split line into words */
 	if (args == NULL || args[0] == NULL) /* empty line */
@@ -75,8 +77,8 @@ void execute(char *line, char **env)
 	path = find_path(args[0], env); /* search command in PATH */
 	if (path == NULL) /* command not found */
 	{
-		fprintf(stderr, "hsh: 1: %s: not found\n", args[0]);
-		free(args);
+		fprintf(stderr, "hsh: %d: %s: not found\n", count, args[0]);
+		free_args(args);
 		return;
 	}
 	fork_exec(path, args, env);
