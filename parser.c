@@ -50,7 +50,11 @@ char **parse(char *line)
 	return (tab);
 }
 /**
-*
+ * free_args - frees an array of strings
+ * @args: the NULL-terminated array of strings to be freed
+ *
+ * Description: Iterates through the array, freeing each individual string
+ * (each argument), and then frees the pointer to the array itself.
  */
 void free_args(char **args)
 {
