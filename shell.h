@@ -7,7 +7,6 @@
 #include <sys/types.h> /** pid_t */
 #include <sys/wait.h> /** wait */
 #include <string.h> /** strcmp, strtok */
-#include <stddef.h>
 
 /* simple_shell.c */
 int main(int ac, char **av, char **env);
@@ -20,8 +19,8 @@ void free_args(char **args);
 
 /** builtins.c */
 int is_builtin(char *cmd);
-void exec_builtin(char **args, char **env);
-void builtin_exit(char **args, char **env);
+void exec_builtin(char **args, char **env, char *line);
+void builtin_exit(char **args, char **env, char *line);
 void builtin_env(char **args, char **env);
 
 /* executor.c */
