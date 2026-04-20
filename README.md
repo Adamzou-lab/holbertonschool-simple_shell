@@ -29,7 +29,6 @@ Launch the shell and type commands directly:
 ```bash
 $ ./hsh
 $ /bin/ls
-$ /bin/echo Hello World
 $ exit
 ```
 
@@ -39,7 +38,6 @@ Pipe commands straight in:
 
 ```bash
 $ echo "/bin/ls" | ./hsh
-$ echo "/bin/echo Hello World" | ./hsh
 ```
 
 ---
@@ -49,9 +47,6 @@ $ echo "/bin/echo Hello World" | ./hsh
 ```bash
 $ /bin/ls
 AUTHORS  README.md  builtins.c  executor.c  parser.c  path.c  shell.h  simple_shell.c  hsh
-
-$ /bin/echo Hello World
-Hello World
 
 $ exit
 $
