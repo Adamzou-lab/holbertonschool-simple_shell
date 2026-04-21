@@ -1,0 +1,141 @@
+.TH HSH 1 "April 2026" "1.0" "Simple Shell Manual"
+
+.SH NAME
+hsh \- a simple UNIX command line interpreter
+
+.SH SYNOPSIS
+.B ./hsh
+.RI [ command \ [ arguments ... ]]
+
+.SH DESCRIPTION
+.B hsh
+is a simple UNIX command line interpreter that reads commands from standard
+input and executes them. It supports both interactive and non-interactive modes.
+
+In
+.B interactive mode,
+the shell displays a prompt
+.B ($)
+and waits for the user to enter a command.
+
+In
+.B non-interactive mode,
+the shell reads commands from a pipe or file without displaying a prompt.
+
+.SH USAGE
+.TP
+.B Interactive mode:
+.nf
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($) exit
+$
+.fi
+
+.TP
+.B Non-interactive mode:
+.nf
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c
+$
+.fi
+
+.SH EXECUTION
+When a command is entered, the shell performs the following steps:
+
+.IP 1. 3
+Reads a line of input using
+.BR getline (3).
+.IP 2. 3
+Parses the line into an array of tokens (command and arguments), splitting on
+spaces, tabs, and newlines.
+.IP 3. 3
+Checks if the command is a built-in. If so, executes it internally.
+.IP 4. 3
+If the command contains a
+.BR / ,
+tests it directly as a path using
+.BR access (2).
+.IP 5. 3
+Otherwise, searches each directory listed in the
+.B PATH
+environment variable for an executable matching the command name.
+.IP 6. 3
+If found, forks a child process using
+.BR fork (2)
+and executes the command with
+.BR execve (2).
+.IP 7. 3
+If not found, prints an error message to stderr and continues.
+
+.SH BUILTINS
+The following built-in commands are supported:
+
+.TP
+.B exit [status]
+Exit the shell. If a numeric
+.I status
+argument is provided, the shell exits with that value. Otherwise exits with 0.
+.br
+Usage: \fBexit\fR or \fBexit 42\fR
+
+.TP
+.B env
+Print all current environment variables to standard output, one per line.
+.br
+Usage: \fBenv\fR
+
+.SH EXIT STATUS
+.TP
+.B 0
+Successful execution or exit without argument.
+.TP
+.B 1
+A command was found but failed to execute.
+.TP
+.B 127
+Command not found.
+.TP
+.I n
+Exit status of the last command executed, or the value passed to
+.BR exit .
+
+.SH ENVIRONMENT
+.TP
+.B PATH
+A colon-separated list of directories in which the shell searches for
+executable commands.
+
+.SH ERRORS
+If a command is not found, the shell prints the following to stderr:
+.nf
+\fIprog_name\fR: \fIcommand_number\fR: \fIcommand\fR: not found
+.fi
+
+If
+.BR fork (2)
+or
+.BR execve (2)
+fails, the shell prints the corresponding system error using
+.BR perror (3).
+
+.SH FILES
+.TP
+.B ./hsh
+The shell executable.
+
+.SH AUTHORS
+See the
+.B AUTHORS
+file at the root of the repository for the list of contributors.
+
+.SH SEE ALSO
+.BR sh (1),
+.BR bash (1),
+.BR execve (2),
+.BR fork (2),
+.BR access (2),
+.BR getline (3),
+.BR strtok (3),
+.BR isatty (3)
