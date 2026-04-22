@@ -99,7 +99,7 @@ flowchart TB
     style A fill:#ffffff
 ```
 
-The shell checks if it's running in a terminal. If yes, it prints a `$` prompt. Either way, it reads input with `getline`. On `Ctrl+D`, it exits cleanly. Otherwise, it tokenizes the input with `strtok`, checks for builtins (`exit`, `env`), and if none match, looks up the command via `PATH`. If found, it forks — the child calls `execve`, the parent waits. Memory is freed, and the loop starts over.
+The shell checks if it's running in a terminal. If yes, it prints a `$` prompt. Either way, it reads input with `getline`. On `Ctrl+D`, it exits cleanly. Otherwise, it tokenizes the input with `strtok`, checks for builtins (`exit`, `env`), and if none match, looks up the command via `PATH`. If found, it forks the child calls `execve`, the parent waits. Memory is freed, and the loop starts over.
 
 ---
 
