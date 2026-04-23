@@ -19,7 +19,18 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```
 
 ---
+## Installation
 
+Clone the repository:
+```
+git clone https://github.com/Adamzou-lab/holbertonschool-simple_shell.git
+cd holbertonschool-simple_shell
+```
+## Run
+
+```
+./hsh
+```
 ## Usage
 
 ### Interactive mode
